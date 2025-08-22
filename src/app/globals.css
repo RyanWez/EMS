@@ -56,34 +56,34 @@
   }
 
   .dark {
-    --background: 222 84% 4.9%; /* #020817 */
-    --foreground: 210 40% 98%; /* #f8fafc */
+    --background: 224 71% 4%;
+    --foreground: 210 40% 98%;
 
-    --card: 222 84% 6.9%; /* A bit lighter than background */
+    --card: 224 71% 6%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222 84% 4.9%;
+    --popover: 224 71% 4%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 346.8 77.2% 49.8%; /* Vibrant Pink/Red */
+    --primary: 217 91% 60%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 217.2 91.2% 59.8%; /* Vibrant Blue */
+    --secondary: 260 81% 60%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217.2 32.6% 17.5%; /* Darker blue */
-    --muted-foreground: 215 20.2% 65.1%; /* Lighter gray for muted text */
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 217 33% 17%;
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 62.8% 30.6%; /* Darker red */
+    --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
-
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 217 91% 60%;
+    
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
@@ -91,14 +91,14 @@
     --chart-5: 340 75% 55%;
     
     /* Sidebar variables - dark theme */
-    --sidebar-background: 222 84% 5.9%;
+    --sidebar-background: 224 71% 5%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 346.8 77.2% 49.8%;
+    --sidebar-primary: 217 91% 60%;
     --sidebar-primary-foreground: 210 40% 98%;
-    --sidebar-accent: 217.2 91.2% 59.8%;
+    --sidebar-accent: 260 81% 60%;
     --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 217.2 32.6% 17.5%;
-    --sidebar-ring: 224.3 76.3% 48%;
+    --sidebar-border: 217 33% 17%;
+    --sidebar-ring: 217 91% 60%;
 
     /* Success Toast Colors - Dark Mode */
     --toast-success-background: 140 45% 22%;
