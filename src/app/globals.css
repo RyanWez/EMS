@@ -112,6 +112,13 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background: linear-gradient(to bottom, #B8E8FC, #D9FFEB, #FFFBD9);
+    background-attachment: fixed;
+  }
+
+  .dark body {
+    @apply bg-background;
+    background: hsl(var(--background));
   }
 }
