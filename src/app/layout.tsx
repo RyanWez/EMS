@@ -1,10 +1,30 @@
-import type {Metadata} from 'next';
+
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import { Toaster } from "@/components/ui/toaster";
+import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
+
+const geistSans = Geist({
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const geistMono = Geist_Mono({
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const appName = process.env.NEXT_PUBLIC_APP_NAME || 'EMS';
 
 export const metadata: Metadata = {
-  title: 'RyanWez Portfolio',
-  description: 'AI Enthusiast & Project Creator',
+  title: {
+    default: appName,
+    template: `%s | ${appName}`,
+  },
+  description: `Secure credential management with ${appName}.Employee Management System (EMS)`,
 };
 
 export default function RootLayout({
@@ -13,13 +33,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-      </head>
-      <body className="font-body antialiased">{children}<Toaster /></body>
+    <html lang="en" suppressHydrationWarning>
+      <body 
+        className={cn(
+          "min-h-screen font-sans antialiased flex flex-col", // Added flex flex-col
+          geistSans.variable,
+          geistMono.variable
+        )}
+        suppressHydrationWarning
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="flex-grow"> {/* Added flex-grow to push footer down */}
+            {children}
+          </div>
+          <footer className="py-3 text-center text-xs sm:text-sm text-muted-foreground border-t border-border mt-auto"> {/* Added mt-auto */}
+            © {new Date().getFullYear()} {appName}. All rights reserved.
+          </footer>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

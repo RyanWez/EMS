@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -38,9 +39,7 @@ const ChartContainer = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & {
     config: ChartConfig
-    children: React.ComponentProps<
-      typeof RechartsPrimitive.ResponsiveContainer
-    >["children"]
+    children: React.ReactNode // Changed from RechartsPrimitive.ResponsiveContainer["children"] to React.ReactNode
   }
 >(({ id, className, children, config, ...props }, ref) => {
   const uniqueId = React.useId()
@@ -58,9 +57,8 @@ const ChartContainer = React.forwardRef<
         {...props}
       >
         <ChartStyle id={chartId} config={config} />
-        <RechartsPrimitive.ResponsiveContainer>
-          {children}
-        </RechartsPrimitive.ResponsiveContainer>
+        {/* Removed direct RechartsPrimitive.ResponsiveContainer wrapping here to allow flexible children */}
+        {children}
       </div>
     </ChartContext.Provider>
   )
