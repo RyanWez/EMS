@@ -199,7 +199,7 @@ export default function LoginPage() {
                   <span className="font-mono font-medium">User123</span>
                 </div>
               </div>
-              <p className="text-xs text-muted-foreground mt-3">The Admin user and role are created automatically on first login attempt with Admin credentials.</p>
+              <p className="text-xs text-muted-foreground mt-3">The 'Admin' user is auto-created on first Admin login.</p>
             </div>
           </CardContent>
         </Card>
