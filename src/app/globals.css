@@ -56,19 +56,19 @@
   }
 
   .dark {
-    --background: 224 71% 4%;
-    --foreground: 210 40% 98%;
+    --background: 222 47% 11%;
+    --foreground: 210 40% 96%;
 
-    --card: 224 71% 6%;
-    --card-foreground: 210 40% 98%;
+    --card: 222 47% 12%;
+    --card-foreground: 210 40% 96%;
 
-    --popover: 224 71% 4%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 96%;
 
-    --primary: 217 91% 60%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 210 90% 60%;
+    --primary-foreground: 222 47% 11%;
 
-    --secondary: 260 81% 60%;
+    --secondary: 190 60% 50%;
     --secondary-foreground: 210 40% 98%;
 
     --muted: 217 33% 17%;
@@ -77,28 +77,28 @@
     --accent: 217 33% 17%;
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 63% 31%;
+    --destructive: 0 63% 40%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 217 33% 17%;
     --input: 217 33% 17%;
-    --ring: 217 91% 60%;
+    --ring: 210 90% 60%;
     
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
+    --chart-1: 210 90% 55%;
+    --chart-2: 190 80% 55%;
+    --chart-3: 170 70% 45%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
     
     /* Sidebar variables - dark theme */
-    --sidebar-background: 224 71% 5%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 217 91% 60%;
-    --sidebar-primary-foreground: 210 40% 98%;
-    --sidebar-accent: 260 81% 60%;
+    --sidebar-background: 222 47% 10%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 210 90% 60%;
+    --sidebar-primary-foreground: 222 47% 11%;
+    --sidebar-accent: 190 60% 50%;
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 217 33% 17%;
-    --sidebar-ring: 217 91% 60%;
+    --sidebar-ring: 210 90% 60%;
 
     /* Success Toast Colors - Dark Mode */
     --toast-success-background: 140 45% 22%;
