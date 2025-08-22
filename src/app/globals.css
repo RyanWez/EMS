@@ -4,6 +4,8 @@
 
 @layer base {
   :root {
+    --background-start: 210 60% 98%;
+    --background-end: 30 70% 95%;
     --background: 210 60% 98%; /* Very light sky blue */
     --foreground: 215 25% 25%; /* Dark grayish blue for text */
 
@@ -112,7 +114,12 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background: linear-gradient(to bottom, hsl(var(--background-start)), hsl(var(--background-end)));
     /* Removed explicit font-family, will be handled by Tailwind config and layout */
+  }
+
+  .dark body {
+    background: hsl(var(--background));
   }
 }
