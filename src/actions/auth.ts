@@ -57,11 +57,17 @@ export interface LoginState {
 const JWT_SECRET = process.env.JWT_SECRET;
 const COOKIE_NAME = 'ems_session';
 
+// Safely get admin credentials from environment variables with defaults
+const DEFAULT_ADMIN_USERNAME = process.env.DEFAULT_ADMIN_USERNAME || 'Admin';
+const DEFAULT_ADMIN_PASSWORD = process.env.DEFAULT_ADMIN_PASSWORD || 'ems137245';
+
 if (!JWT_SECRET) {
   console.error("FATAL ERROR: JWT_SECRET is not defined in .env.local. Authentication will not work.");
 }
+if (!process.env.DEFAULT_ADMIN_USERNAME || !process.env.DEFAULT_ADMIN_PASSWORD) {
+    console.warn("WARNING: DEFAULT_ADMIN_USERNAME or DEFAULT_ADMIN_PASSWORD are not set in .env. Default values will be used.");
+}
 
-const DEFAULT_ADMIN_PASSWORD = 'ems137245'; // Default password for auto-created Admin
 
 export async function loginUser(
   prevState: LoginState | undefined,
@@ -101,7 +107,7 @@ export async function loginUser(
     let userToAuth: WithId<UserDocumentForAuth> | null = null;
 
     // --- Admin User and Role Bootstrapping Logic ---
-    if (username === 'Admin') {
+    if (username === DEFAULT_ADMIN_USERNAME) {
       console.log('[AuthAction] Admin login attempt detected. Checking for Admin role and user existence...');
       let adminRole = await rolesCollection.findOne({ name: 'Admin' });
 
@@ -110,12 +116,12 @@ export async function loginUser(
         const allPermissionIds = ALL_PERMISSIONS.map(p => p.id);
         const newAdminRoleData = {
           name: 'Admin',
-          author: 'System', // Or 'EMS' as previously discussed
+          author: 'System', 
           permissions: allPermissionIds,
           createdAt: new Date(),
           updatedAt: new Date(),
         };
-        const insertRoleResult = await rolesCollection.insertOne(newAdminRoleData as any); // Cast to any to avoid TS fuss with _id
+        const insertRoleResult = await rolesCollection.insertOne(newAdminRoleData as any); 
         if (!insertRoleResult.insertedId) {
           console.error('[AuthAction] CRITICAL: Failed to create "Admin" role.');
           return { success: false, message: 'System error: Could not initialize Admin role.' };
@@ -137,13 +143,13 @@ export async function loginUser(
         }
       }
 
-      userToAuth = await usersCollection.findOne({ username: 'Admin' });
+      userToAuth = await usersCollection.findOne({ username: DEFAULT_ADMIN_USERNAME });
       if (!userToAuth) {
         console.log('[AuthAction] "Admin" user not found. Creating "Admin" user...');
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(DEFAULT_ADMIN_PASSWORD, saltRounds);
         const newAdminUserData = {
-          username: 'Admin',
+          username: DEFAULT_ADMIN_USERNAME,
           hashedPassword: hashedPassword,
           roleId: adminRoleId,
           authorUsername: 'System',
@@ -185,16 +191,13 @@ export async function loginUser(
     let roleDoc = await rolesCollection.findOne({ _id: userToAuth.roleId });
 
     if (!roleDoc) {
-      // This case could happen if an admin user exists but their role was deleted.
-      // For 'Admin' user, we re-check/ensure the Admin role.
-      if (userToAuth.username === 'Admin') {
+      if (userToAuth.username === DEFAULT_ADMIN_USERNAME) {
         console.warn(`[AuthAction] Admin user's role (ID: ${userToAuth.roleId}) not found. Re-fetching/Ensuring Admin role by name.`);
         roleDoc = await rolesCollection.findOne({ name: 'Admin' });
-        if (!roleDoc) { // Should have been created/updated above, but as a fallback.
+        if (!roleDoc) { 
           console.error(`[AuthAction] CRITICAL: "Admin" role document is missing even after bootstrap attempt for Admin user.`);
           return { success: false, message: 'Critical system error: Admin role misconfiguration.', errors: { general: ['Admin role not found.'] } };
         }
-        // If Admin user's roleId was incorrect, update it now
         if (!userToAuth.roleId.equals(roleDoc._id)) {
             await usersCollection.updateOne({ _id: userToAuth._id }, { $set: { roleId: roleDoc._id, updatedAt: new Date() }});
             console.log(`[AuthAction] Corrected Admin user's roleId in DB to ${roleDoc._id.toString()}`);
@@ -212,10 +215,9 @@ export async function loginUser(
 
     let userPermissions: string[];
 
-    if (userToAuth.username === 'Admin') {
+    if (userToAuth.username === DEFAULT_ADMIN_USERNAME) {
       userPermissions = ALL_PERMISSIONS.map(p => p.id);
-      console.log(`[AuthAction] User 'Admin' detected. Assigning all ${userPermissions.length} permissions for session.`);
-      // The Admin role in DB was already ensured to have all permissions earlier in this function.
+      console.log(`[AuthAction] User '${DEFAULT_ADMIN_USERNAME}' detected. Assigning all ${userPermissions.length} permissions for session.`);
     } else {
       userPermissions = roleDoc.permissions || [];
       console.log(`[AuthAction] Permissions for user ${username} from database role '${roleDoc.name}':`, userPermissions);

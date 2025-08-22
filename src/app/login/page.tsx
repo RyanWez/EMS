@@ -185,21 +185,21 @@ export default function LoginPage() {
       <div className="mt-6 w-full max-w-md">
         <Card className="bg-muted/50 border-dashed">
             <CardHeader className="p-4">
-                <CardTitle className="text-base text-center">Default Admin Credentials</CardTitle>
+                <CardTitle className="text-base text-center">Default Credentials</CardTitle>
             </CardHeader>
           <CardContent className="pt-0 pb-4 px-4">
             <div className="text-center">
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between items-center bg-background/50 rounded px-3 py-2">
                   <span className="text-muted-foreground">Username:</span>
-                  <span className="font-mono font-medium">Admin</span>
+                  <span className="font-mono font-medium">User</span>
                 </div>
                 <div className="flex justify-between items-center bg-background/50 rounded px-3 py-2">
                   <span className="text-muted-foreground">Password:</span>
-                  <span className="font-mono font-medium">ems137245</span>
+                  <span className="font-mono font-medium">User123</span>
                 </div>
               </div>
-              <p className="text-xs text-muted-foreground mt-3">The Admin user and role are created automatically on first login attempt with these credentials.</p>
+              <p className="text-xs text-muted-foreground mt-3">The Admin user and role are created automatically on first login attempt with Admin credentials.</p>
             </div>
           </CardContent>
         </Card>
