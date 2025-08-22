@@ -2,7 +2,8 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { ArrowLeft, Compass, Home } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -10,46 +11,44 @@ export default function NotFoundPage() {
   const router = useRouter();
 
   return (
-    <div className="bg-slate-100 min-h-screen flex items-center justify-center p-4 overflow-hidden relative">
-      {/* Animated background shapes */}
-      <div
-        className="absolute w-[300px] h-[300px] bg-gradient-to-br from-purple-400 to-indigo-400 rounded-full filter blur-2xl opacity-50 animate-move-shape1 top-[10%] left-[10%] z-[-1]"
-        style={{ filter: 'blur(80px)' }}
-      />
-      <div
-        className="absolute w-[400px] h-[400px] bg-gradient-to-br from-yellow-300 to-orange-400 rounded-full filter blur-2xl opacity-50 animate-move-shape2 bottom-[5%] right-[5%] z-[-1]"
-        style={{ filter: 'blur(80px)' }}
-      />
-
-      <div className="text-center space-y-6 relative z-10">
-        <h1 className="text-8xl md:text-9xl font-bold text-red-500 animate-bounce-in drop-shadow-custom-text">
-          404
-        </h1>
-        <p className="text-3xl md:text-4xl font-semibold text-slate-800">
-          စာမျက်နှာ ရှာမတွေ့ပါ
-        </p>
-        <p className="text-base md:text-lg text-slate-600 max-w-xl mx-auto">
-          တောင်းဆိုထားသော စာမျက်နှာကို ကျွန်ုပ်တို့၏ ဆာဗာတွင် ရှာမတွေ့ပါ။ လိပ်စာမှန်ကန်ကြောင်း သေချာပါစေ သို့မဟုတ် အောက်ပါခလုတ်ကို နှိပ်၍ ပင်မစာမျက်နှာသို့ ပြန်သွားပါ။
-        </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <Button
-              onClick={() => router.back()}
-              variant="outline"
-              className="py-3 px-6 text-base border-slate-400 hover:bg-slate-200 text-slate-700 w-full sm:w-auto"
-            >
-              <ArrowLeft className="mr-2 h-5 w-5" />
-              Back
-            </Button>
-            <Button 
-              asChild 
-              className="py-3 px-6 text-base bg-blue-500 hover:bg-blue-600 text-white rounded-full font-semibold shadow-md transition-transform duration-200 hover:translate-y-[-2px] active:translate-y-0 active:shadow-none w-full sm:w-auto"
-            >
-              <Link href="/dashboard">
-                Dashboard
-              </Link>
-            </Button>
-        </div>
-      </div>
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <Card className="w-full max-w-md shadow-2xl border-border/60">
+          <CardHeader className="text-center items-center pb-4">
+            <div className="p-4 bg-destructive/10 rounded-full mb-4 border border-destructive/20">
+                <Compass className="h-12 w-12 text-destructive" strokeWidth={1.5} />
+            </div>
+            <CardTitle className="text-6xl font-bold text-destructive tracking-tighter">
+              404
+            </CardTitle>
+            <CardDescription className="text-xl font-medium text-foreground pt-2">
+              Page Not Found
+            </CardDescription>
+        </CardHeader>
+        <CardContent className="text-center">
+            <p className="text-base text-muted-foreground">
+                Sorry, the page you are looking for could not be found. It might have been removed, had its name changed, or is temporarily unavailable.
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Button
+                    onClick={() => router.back()}
+                    variant="outline"
+                    className="w-full sm:w-auto"
+                >
+                    <ArrowLeft className="mr-2 h-4 w-4" />
+                    Go Back
+                </Button>
+                <Button 
+                    asChild 
+                    className="w-full sm:w-auto"
+                >
+                    <Link href="/dashboard">
+                        <Home className="mr-2 h-4 w-4" />
+                        Back to Dashboard
+                    </Link>
+                </Button>
+            </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
