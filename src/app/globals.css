@@ -56,46 +56,54 @@
   }
 
   .dark {
-    --background: 232 28% 25%;
-    --foreground: 220 20% 95%;
-    --card: 232 28% 30%;
-    --card-foreground: 220 20% 95%;
-    --popover: 232 28% 20%;
-    --popover-foreground: 220 20% 95%;
-    --primary: 210 90% 65%;
-    --primary-foreground: 220 20% 10%;
-    --secondary: 220 15% 45%;
-    --secondary-foreground: 220 20% 95%;
-    --muted: 220 15% 35%;
-    --muted-foreground: 220 15% 75%;
-    --accent: 220 15% 45%;
-    --accent-foreground: 220 20% 95%;
-    --destructive: 0 65% 55%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 220 15% 38%;
-    --input: 220 15% 40%;
-    --ring: 210 90% 65%;
-    
-    --chart-1: 210 90% 55%;
-    --chart-2: 190 80% 55%;
-    --chart-3: 170 70% 45%;
+    --background: 220 30% 10%; /* Dark desaturated blue */
+    --foreground: 210 40% 93%; /* Light grayish blue */
+
+    --card: 220 30% 15%; /* Slightly lighter dark blue */
+    --card-foreground: 210 40% 90%;
+
+    --popover: 220 30% 15%;
+    --popover-foreground: 210 40% 90%;
+
+    --primary: 225 40% 70%; /* Adjusted for consistency with new light primary */
+    --primary-foreground: 220 20% 10%; /* Dark text on primary button */
+
+    --secondary: 220 30% 25%; /* Darker shade for secondary elements */
+    --secondary-foreground: 210 40% 88%; /* Light text */
+
+    --muted: 220 30% 20%; /* Darker subtle color */
+    --muted-foreground: 210 25% 68%; /* Medium-light gray */
+
+    --accent: 250 50% 75%; /* Lighter soft Lavender for dark mode */
+    --accent-foreground: 230 20% 15%; /* Dark text on accent */
+
+    --destructive: 0 65% 50%; /* Brighter red for dark mode */
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 20% 30%; /* Darker blue/gray border */
+    --input: 220 30% 22%; /* Darker input background */
+    --ring: 225 40% 70%; /* Match new dark primary */
+
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
     
     /* Sidebar variables - dark theme */
-    --sidebar-background: 233 22% 28%; /* Darker variant of background */
-    --sidebar-foreground: 210 40% 96%;
-    --sidebar-primary: 210 90% 60%;
-    --sidebar-primary-foreground: 222 47% 11%;
-    --sidebar-accent: 190 60% 50%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 233 22% 43%;
-    --sidebar-ring: 210 90% 60%;
+    --sidebar-background: 220 25% 14%;
+    --sidebar-foreground: 210 35% 88%;
+    --sidebar-primary: 225 40% 70%; /* Match new dark primary */
+    --sidebar-primary-foreground: 220 20% 10%;
+    --sidebar-accent: 250 50% 75%;
+    --sidebar-accent-foreground: 230 20% 15%;
+    --sidebar-border: 220 20% 28%;
+    --sidebar-ring: 225 40% 70%; /* Match new dark primary */
 
     /* Success Toast Colors - Dark Mode */
-    --toast-success-background: 140 45% 22%;
-    --toast-success-foreground: 140 65% 88%;
-    --toast-success-border: 140 40% 45%;
+    --toast-success-background: 140 45% 22%; /* Darker green background */
+    --toast-success-foreground: 140 65% 88%; /* Lighter green text */
+    --toast-success-border: 140 40% 45%;   /* Medium-dark green border */
   }
 }
 
@@ -104,7 +112,6 @@
     @apply border-border;
   }
   body {
-    @apply text-foreground;
     background: linear-gradient(to bottom, #B8E8FC, #D9FFEB, #FFFBD9);
     background-attachment: fixed;
   }
