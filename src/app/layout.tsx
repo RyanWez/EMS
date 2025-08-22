@@ -51,9 +51,6 @@ export default function RootLayout({
           <div className="flex-grow"> {/* Added flex-grow to push footer down */}
             {children}
           </div>
-          <footer className="py-3 text-center text-xs sm:text-sm text-muted-foreground border-t border-border mt-auto"> {/* Added mt-auto */}
-            © {new Date().getFullYear()} {appName}. All rights reserved.
-          </footer>
         </ThemeProvider>
       </body>
     </html>
