@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useMemo, useRef } from 'react'; // Added useRef
-import { Users, UserPlus, AlertTriangle, Cake, CalendarCheck2, ChevronLeft, ChevronRight, Briefcase, Calendar } from 'lucide-react'; // Added Calendar icon
+import { Users, UserPlus, AlertTriangle, Cake, CalendarCheck2, ChevronLeft, ChevronRight, Briefcase, Calendar, UserCheck, UserX, Building } from 'lucide-react'; // Added Calendar icon and new icons
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -17,7 +17,9 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Rectangle
+  Rectangle,
+  PieChart,
+  Pie
 } from 'recharts';
 import { ChartContainer, type ChartConfig, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"; // Added Select components
@@ -172,6 +174,31 @@ export default function DashboardPage() {
   const [currentChartYear, setCurrentChartYear] = useState(getYear(new Date()));
   const [currentChartMonth, setCurrentChartMonth] = useState(getMonth(new Date())); // 0-indexed month
 
+  // New states for additional dashboard features
+  const [activeEmployees, setActiveEmployees] = useState<number | null>(null);
+  const [inactiveEmployees, setInactiveEmployees] = useState<number | null>(null);
+  const [genderDistribution, setGenderDistribution] = useState<{ male: number; female: number } | null>(null);
+
+  // Data for Gender Distribution Pie Chart
+  const genderChartData = useMemo(() => {
+    if (!genderDistribution) return [];
+    return [
+      { name: 'Male', value: genderDistribution.male, fill: 'hsl(var(--chart-1))' },
+      { name: 'Female', value: genderDistribution.female, fill: 'hsl(var(--chart-2))' }
+    ].filter(item => item.value > 0);
+  }, [genderDistribution]);
+
+  const genderChartConfig = useMemo(() => ({
+    male: {
+      label: "Male",
+      color: "hsl(var(--chart-1))",
+    },
+    female: {
+      label: "Female",
+      color: "hsl(var(--chart-2))",
+    },
+  }), []);
+
   useEffect(() => {
     const fetchEmployees = async () => {
       setIsLoadingEmployees(true);
@@ -249,10 +276,40 @@ export default function DashboardPage() {
 
       const countCurrent = countEmployeesWithSixMonthAnniversaryInMonth(allEmployees, currentRefMonth);
       const countNext = countEmployeesWithSixMonthAnniversaryInMonth(allEmployees, nextRefMonth);
-      
+
       setSixMonthAnniversaryStats({ currentDisplayMonthCount: countCurrent, nextDisplayMonthCount: countNext });
     }
   }, [allEmployees, anniversaryDisplayMonth, isLoadingEmployees, employeeError]);
+
+  // Calculate additional metrics
+  useEffect(() => {
+    if (employeeError) {
+        setActiveEmployees(null);
+        setInactiveEmployees(null);
+        setGenderDistribution(null);
+        return;
+    }
+
+    if (allEmployees.length > 0 || !isLoadingEmployees) {
+        // For now, assume all employees are active since there's no status field
+        setActiveEmployees(allEmployees.length);
+        setInactiveEmployees(0);
+
+        // Calculate gender distribution
+        let maleCount = 0;
+        let femaleCount = 0;
+
+        allEmployees.forEach(emp => {
+          if (emp.gender === 'Male') {
+            maleCount++;
+          } else if (emp.gender === 'Female') {
+            femaleCount++;
+          }
+        });
+
+        setGenderDistribution({ male: maleCount, female: femaleCount });
+    }
+  }, [allEmployees, isLoadingEmployees, employeeError]);
 
   const handlePrevAnniversaryMonth = () => {
     setAnniversaryDisplayMonth(prev => startOfMonth(addMonths(prev, -1)));
@@ -404,7 +461,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Removed mt-8 from the grid for spacing after the title */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mt-4"> 
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-6 mt-4">
         <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -541,11 +598,77 @@ export default function DashboardPage() {
             {employeeError && <p className="text-xs text-destructive mt-1 truncate" title={employeeError}>{employeeError}</p>}
           </CardContent>
         </Card>
+
+        <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Active Employees
+            </CardTitle>
+            <UserCheck className="h-5 w-5 text-green-600 opacity-80" />
+          </CardHeader>
+          <CardContent>
+            {isLoadingEmployees ? (
+              <Skeleton className="h-8 w-24 mt-1" />
+            ) : employeeError ? (
+              <div className="text-sm text-destructive flex items-center mt-1">
+                <AlertTriangle className="h-4 w-4 mr-2" /> Error
+              </div>
+            ) : (
+              <div className="text-2xl font-bold text-foreground">
+                <AnimatedNumber value={activeEmployees} />
+              </div>
+            )}
+            {employeeError && <p className="text-xs text-destructive mt-1 truncate" title={employeeError}>{employeeError}</p>}
+            {!isLoadingEmployees && !employeeError && activeEmployees !== null && (
+              <p className="text-xs text-muted-foreground pt-1">
+                Currently active employees.
+              </p>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Gender Distribution
+            </CardTitle>
+            <Building className="h-5 w-5 text-purple-500 opacity-80" />
+          </CardHeader>
+          <CardContent>
+            {isLoadingEmployees ? (
+              <div className="flex justify-center items-center h-16">
+                <Skeleton className="h-12 w-12 rounded-full" />
+              </div>
+            ) : employeeError ? (
+              <div className="text-sm text-destructive flex items-center mt-1">
+                <AlertTriangle className="h-4 w-4 mr-2" /> Error
+              </div>
+            ) : genderDistribution ? (
+              <div className="flex items-center justify-between">
+                <div className="text-center">
+                  <div className="text-lg font-bold text-blue-600">
+                    {genderDistribution.male}
+                  </div>
+                  <div className="text-xs text-muted-foreground">Male</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-lg font-bold text-pink-600">
+                    {genderDistribution.female}
+                  </div>
+                  <div className="text-xs text-muted-foreground">Female</div>
+                </div>
+              </div>
+            ) : (
+              <div className="text-sm text-muted-foreground text-center">No data</div>
+            )}
+            {employeeError && <p className="text-xs text-destructive mt-1 truncate" title={employeeError}>{employeeError}</p>}
+          </CardContent>
+        </Card>
       </div>
 
-      {/* Employee Count by Position Bar Chart Card */}
+      {/* Charts Section */}
       {/* Adjusted mt-4 to the grid for spacing after the cards */}
-      <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2 pt-4 mt-4"> 
+      <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 pt-4 mt-4">
         <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 md:col-span-1 lg:col-span-1">
           <CardHeader>
             <CardTitle className="text-xl flex items-center">
@@ -575,9 +698,9 @@ export default function DashboardPage() {
                       tickLine={false}
                       tickMargin={10}
                       axisLine={false}
-                      tickFormatter={(value: string) => { 
+                      tickFormatter={(value: string) => {
                         const configEntry = positionChartConfig[value];
-                        return configEntry?.label || value; 
+                        return String(configEntry?.label || value);
                       }}
                     />
                     <YAxis dataKey="value" tickLine={false} axisLine={false} />
@@ -696,7 +819,7 @@ export default function DashboardPage() {
                       axisLine={false}
                       tickFormatter={(value: string) => {
                         const configEntry = newHiresChartConfig[value];
-                        return configEntry?.label || value;
+                        return String(configEntry?.label || value);
                       }}
                     />
                     <YAxis dataKey="hires" tickLine={false} axisLine={false} />
@@ -734,6 +857,59 @@ export default function DashboardPage() {
             ) : (
               <div className="flex items-center justify-center h-72 text-muted-foreground">
                 No new hires data available to display chart.
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Gender Distribution Pie Chart */}
+        <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 md:col-span-1 lg:col-span-1">
+          <CardHeader>
+            <CardTitle className="text-xl flex items-center">
+              <Building className="h-5 w-5 mr-2 text-purple-500 opacity-80" />
+              Gender Distribution
+            </CardTitle>
+            <CardDescription>Breakdown of employees by gender.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {isLoadingEmployees ? (
+              <div className="flex justify-center items-center h-72">
+                <Skeleton className="h-60 w-60 rounded-full" />
+              </div>
+            ) : employeeError ? (
+              <div className="text-sm text-destructive flex flex-col items-center justify-center h-72">
+                <AlertTriangle className="h-8 w-8 mb-2" />
+                <p>Error loading gender data.</p>
+                <p className="text-xs truncate" title={employeeError}>{employeeError}</p>
+              </div>
+            ) : genderChartData.length > 0 ? (
+              <ChartContainer config={genderChartConfig} className="aspect-square h-72 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={genderChartData}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={80}
+                      fill="#8884d8"
+                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      isAnimationActive={true}
+                      animationDuration={800}
+                    >
+                      {genderChartData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.fill} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend verticalAlign="bottom" height={40} iconSize={10} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </ChartContainer>
+            ) : (
+              <div className="flex items-center justify-center h-72 text-muted-foreground">
+                No gender data available to display chart.
               </div>
             )}
           </CardContent>
