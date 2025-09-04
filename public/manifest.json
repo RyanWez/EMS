@@ -2,7 +2,8 @@
   "name": "Employee Management System",
   "short_name": "EMS",
   "description": "Secure credential management with Employee Management System (EMS)",
-  "start_url": "/",
+  "start_url": "/?source=pwa",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
@@ -38,5 +39,6 @@
   ],
   "categories": ["business", "productivity"],
   "lang": "en",
-  "dir": "ltr"
+  "dir": "ltr",
+  "prefer_related_applications": false
 }
