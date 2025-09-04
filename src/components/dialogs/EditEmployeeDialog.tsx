@@ -52,7 +52,7 @@ const editEmployeeSchema = z.object({
   position: z.enum(employeePositions, { required_error: 'Position is required.' }),
   gender: z.enum(['Male', 'Female'], { required_error: 'Gender is required.' }),
   dob: z.date({ required_error: 'Date of birth is required.' }),
-  phone: z.string().min(1, { message: 'Phone number is required.' }).regex(/^09\d{7,9}$/, { message: 'Phone number must start with 09 and be 9 to 11 digits long.'}),
+  phone: z.string().optional().refine((val) => !val || /^09\d{7,9}$/.test(val), { message: 'Phone number must start with 09 and be 9 to 11 digits long.' }),
   address: z.string().optional(),
 });
 
@@ -85,7 +85,7 @@ export function EditEmployeeDialog({ isOpen, onOpenChange, employee, onEmployeeU
       _id: '',
       name: '',
       nrc: '',
-      phone: '09',
+      phone: '',
       address: '',
       position: undefined,
       gender: undefined,
@@ -131,7 +131,7 @@ export function EditEmployeeDialog({ isOpen, onOpenChange, employee, onEmployeeU
 
     } else if (!isOpen) { // Reset form if dialog is closed
         form.reset({
-            _id: '', name: '', nrc: '', phone: '09', address: '',
+            _id: '', name: '', nrc: '', phone: '', address: '',
             position: undefined, gender: undefined,
             // Reset date parts as well
         });
@@ -265,7 +265,7 @@ export function EditEmployeeDialog({ isOpen, onOpenChange, employee, onEmployeeU
     if (!openState) {
         // Reset form or other cleanup if dialog is closed without submitting
         form.reset({
-            _id: '', name: '', nrc: '', phone: '09', address: '',
+            _id: '', name: '', nrc: '', phone: '', address: '',
             position: undefined, gender: undefined,
         });
         setDobDay(''); setDobMonth(''); setDobYear('');
@@ -430,7 +430,7 @@ export function EditEmployeeDialog({ isOpen, onOpenChange, employee, onEmployeeU
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
+                    <FormLabel>Phone Number <span className="text-xs text-muted-foreground">(Optional)</span></FormLabel>
                     <FormControl>
                       <Input placeholder="09xxxxxxxxx" {...field} disabled={isSubmitting} />
                     </FormControl>

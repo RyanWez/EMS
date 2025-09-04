@@ -32,7 +32,7 @@ const addEmployeeServerSchema = z.object({
     }
   }, { message: "Invalid date format for Date of Birth. Expected YYYY-MM-DD." }),
   gender: z.enum(['Male', 'Female']),
-  phone: z.string().min(1).regex(/^09\d{7,9}$/),
+  phone: z.string().optional().refine((val) => !val || /^09\d{7,9}$/.test(val), { message: 'Phone number must start with 09 and be 9 to 11 digits long.' }),
   address: z.string().optional(),
 });
 
@@ -49,7 +49,7 @@ export interface ClientEmployee {
   position: "Super" | "Leader" | "Account Department" | "Operation" | "Security" | "Fire Safety" | "Cleaner";
   dob: string;
   gender: "Male" | "Female";
-  phone: string;
+  phone?: string;
   nrc?: string;
   address?: string;
   createdAt: string;

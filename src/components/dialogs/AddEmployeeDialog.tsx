@@ -51,7 +51,7 @@ const employeeSchema = z.object({
   position: z.enum(employeePositions, { required_error: 'Position is required.' }),
   gender: z.enum(['Male', 'Female'], { required_error: 'Gender is required.' }),
   dob: z.date({ required_error: 'Date of birth is required.' }),
-  phone: z.string().min(1, { message: 'Phone number is required.' }).regex(/^09\d{7,9}$/, { message: 'Phone number must start with 09 and be 9 to 11 digits long.'}),
+  phone: z.string().optional().refine((val) => !val || /^09\d{7,9}$/.test(val), { message: 'Phone number must start with 09 and be 9 to 11 digits long.' }),
   address: z.string().optional(),
 });
 
@@ -89,9 +89,9 @@ export function AddEmployeeDialog({ children, onEmployeeAdded }: AddEmployeeDial
     defaultValues: {
       name: '',
       nrc: '',
-      phone: '09',
+      phone: '',
       address: '',
-      dob: getDefaultDob(), 
+      dob: getDefaultDob(),
     },
   });
 
@@ -192,10 +192,10 @@ export function AddEmployeeDialog({ children, onEmployeeAdded }: AddEmployeeDial
         });
         setIsOpen(false);
         const defaultDob = getDefaultDob();
-        form.reset({ 
+        form.reset({
             name: '',
             nrc: '',
-            phone: '09',
+            phone: '',
             address: '',
             dob: defaultDob,
             joinDate: undefined,
@@ -242,7 +242,7 @@ export function AddEmployeeDialog({ children, onEmployeeAdded }: AddEmployeeDial
     if (!open) {
         const defaultDob = getDefaultDob();
         form.reset({
-            name: '', nrc: '', phone: '09', address: '',
+            name: '', nrc: '', phone: '', address: '',
             dob: defaultDob,
             joinDate: undefined, position: undefined, gender: undefined,
         });
@@ -404,7 +404,7 @@ export function AddEmployeeDialog({ children, onEmployeeAdded }: AddEmployeeDial
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
+                    <FormLabel>Phone Number <span className="text-xs text-muted-foreground">(Optional)</span></FormLabel>
                     <FormControl>
                       <Input placeholder="09xxxxxxxxx" {...field} disabled={isSubmitting} />
                     </FormControl>
