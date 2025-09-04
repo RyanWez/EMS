@@ -1,90 +1,81 @@
 # EMS (Employee Management System)
 
-A comprehensive Employee Management System built with Next.js, featuring secure authentication, role-based access control, and advanced employee data management capabilities.
+[![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-7-green)](https://www.mongodb.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC)](https://tailwindcss.com/)
 
-## 🚀 Features
+A modern, secure, and feature-rich Employee Management System built with Next.js 15, designed to streamline HR operations with role-based access control, real-time analytics, and comprehensive employee data management.
 
-### 🔐 Authentication & Security
-- **Secure JWT Authentication** with 7-day auto-logout
-- **Role-based Access Control (RBAC)** with granular permissions
-- **Password Encryption** using bcrypt
-- **Session Management** with HTTP-only cookies
-- **Auto-generated Admin Account** with full system access
+## ✨ Features
+
+### 🔐 Security & Authentication
+- **JWT-based Authentication** with automatic 7-day session expiration
+- **Role-Based Access Control (RBAC)** with granular permissions
+- **Secure Password Hashing** using bcrypt
+- **HTTP-only Cookies** for session management
+- **Auto-generated Admin Account** on first login
 
 ### 📊 Dashboard & Analytics
-- **Interactive Dashboard** with animated statistics
-- **Real-time Employee Metrics**:
-  - Total employee count
-  - New hires this month
-  - Birthday celebrations
-  - 6-month service anniversaries
-- **Visual Charts**:
-  - Employee distribution by position (Bar Chart)
-  - New hires over time (Monthly/Yearly view)
+- **Interactive Dashboard** with animated metrics and charts
+- **Real-time Statistics**: Employee count, monthly hires, birthdays, service anniversaries
+- **Data Visualization**: Position distribution (bar chart), hiring trends (line chart)
 - **Responsive Design** with dark/light theme support
 
 ### 👥 Employee Management
-- **Complete Employee CRUD Operations**
-- **Advanced Employee Listing** with search and filtering
-- **Employee Data Fields**:
-  - Personal information (Name, DOB, Gender, Phone, NRC)
-  - Professional details (Position, Join Date, Address)
-  - Calculated service years
-- **Special Views**:
-  - Birthday tracking page
-  - 6+ months service employees page
-- **Data Export** to CSV format
-- **Employee Details Modal** with comprehensive information
+- **Full CRUD Operations** for employee records
+- **Advanced Search & Filtering** capabilities
+- **Comprehensive Data Fields**: Personal info, professional details, service calculations
+- **Specialized Views**: Birthday tracker, 6-month service anniversaries
+- **CSV Export** functionality
+- **Detailed Employee Profiles** with modal views
 
 ### 🔧 User & Role Management
-- **User Account Management**:
-  - Create, edit, delete user accounts
-  - Username and role assignment
-  - Protected admin account
-- **Role Management System**:
-  - Create custom roles with specific permissions
-  - Edit role names and permissions
-  - Delete unused roles
-- **Granular Permissions** across 4 categories:
+- **User Account Administration**: Create, edit, delete accounts
+- **Dynamic Role System**: Custom roles with specific permissions
+- **Permission Categories**:
   - Dashboard access
-  - Employee management operations
-  - User & role administration
-  - Profile management
+  - Employee operations (view, add, edit, delete)
+  - User & role management
+  - Profile customization
+- **Protected Admin Functions** with secure API endpoints
 
-### 🎨 User Interface
-- **Modern UI** with Tailwind CSS and Radix UI components
-- **Responsive Design** for all device sizes
-- **Dark/Light Theme Toggle**
+### 🎨 User Experience
+- **Modern UI** built with Tailwind CSS and Radix UI
+- **Fully Responsive** design for all devices
+- **Theme Toggle** (Dark/Light mode)
 - **Toast Notifications** for user feedback
-- **Loading States** and error handling
-- **Accessibility Compliant** forms and navigation
+- **Loading States** and comprehensive error handling
+- **Accessibility Compliant** components
 
-## 🛠 Technology Stack
+## 🛠 Tech Stack
 
-- **Frontend**: Next.js 15, React 18, TypeScript
-- **Styling**: Tailwind CSS, Radix UI Components
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS, Radix UI
+- **Database**: MongoDB (Native Driver)
 - **Authentication**: JWT, bcrypt
-- **Database**: MongoDB with native driver
-- **Charts**: Recharts for data visualization
-- **Forms**: React Hook Form with Zod validation
+- **Charts**: Recharts
+- **Forms**: React Hook Form + Zod validation
 - **State Management**: React Context API
 - **Icons**: Lucide React
+- **AI Integration**: Google Generative AI (optional)
 
 ## 📋 Prerequisites
 
-- Node.js 18+ 
-- MongoDB database
-- npm or yarn package manager
+- Node.js 18 or higher
+- MongoDB database (local or cloud)
+- npm, yarn, or pnpm package manager
 
-## ⚙️ Installation & Setup
+## 🚀 Installation & Setup
 
-1. **Clone the repository**
+1. **Clone the Repository**
    ```bash
-   git clone <repository-url>
-   cd ems
+   git clone https://github.com/RyanWez/EMS.git
+   cd EMS
    ```
 
-2. **Install dependencies**
+2. **Install Dependencies**
    ```bash
    npm install
    ```
@@ -94,115 +85,129 @@ A comprehensive Employee Management System built with Next.js, featuring secure 
    ```env
    NEXT_PUBLIC_APP_NAME=EMS
    MONGODB_URI=your_mongodb_connection_string
-   JWT_SECRET=your_jwt_secret_key
-   GOOGLE_GENAI_API_KEY=your_google_ai_api_key
+   JWT_SECRET=your_secure_jwt_secret_key
+   GOOGLE_GENAI_API_KEY=your_google_ai_api_key  # Optional
    ```
 
-4. **Start the development server**
+4. **Start the Development Server**
    ```bash
    npm run dev
    ```
 
-5. **Access the application**
+5. **Access the Application**
    Open [http://localhost:9002](http://localhost:9002) in your browser
 
-## 🔑 Default Login Credentials
+## 🔑 Default Credentials
 
 - **Username**: `Admin`
 - **Password**: `ems137245`
 
-*Note: The Admin account is automatically created on first login with full system permissions.*
+> **Note**: The admin account is automatically created on first login with full system permissions. Change the password after initial setup for security.
 
 ## 📁 Project Structure
 
 ```
-src/
-├── actions/           # Server actions for data operations
-├── app/              # Next.js app router pages
-│   ├── (app)/        # Protected app routes
-│   │   ├── dashboard/
-│   │   ├── employee-management/
-│   │   └── user-management/
-│   ├── api/          # API routes
-│   └── login/        # Authentication pages
-├── components/       # Reusable UI components
-├── config/          # Application configuration
-├── contexts/        # React context providers
-├── hooks/           # Custom React hooks
-└── lib/             # Utility functions and database
+EMS/
+├── src/
+│   ├── actions/           # Server actions for data operations
+│   ├── ai/               # AI integration and flows
+│   ├── app/              # Next.js App Router
+│   │   ├── (app)/        # Protected routes
+│   │   ├── api/          # API endpoints
+│   │   └── login/        # Authentication
+│   ├── components/       # Reusable UI components
+│   ├── config/          # Application configuration
+│   ├── contexts/        # React contexts
+│   ├── hooks/           # Custom hooks
+│   └── lib/             # Utilities and database
+├── public/              # Static assets
+│   ├── images/          # Icons and favicons
+│   └── sw.js           # Service worker
+├── docs/               # Documentation
+└── package.json        # Dependencies and scripts
 ```
 
 ## 🔒 Permission System
 
-The system includes 4 main permission categories:
+The system implements granular permissions across four main categories:
 
 ### Dashboard
-- View dashboard overview and analytics
+- View analytics and metrics
+- Access interactive charts
 
 ### Employee Management
 - View employee lists and details
-- Add, edit, delete employee records
-- Access birthday and service anniversary pages
-- Export employee data
-- Control field visibility (position, gender, DOB, etc.)
+- Perform CRUD operations
+- Access specialized views (birthdays, anniversaries)
+- Export data to CSV
+- Control field visibility
 
 ### User & Role Management
-- Manage user accounts and roles
-- Create and modify permission sets
-- Control system access levels
+- Administer user accounts
+- Create and modify roles
+- Assign permissions
+- Manage system access levels
 
 ### Profile
-- Change global profile images
+- Customize global profile images
 
-## 🚀 Available Scripts
+## ⚙️ Available Scripts
 
-- `npm run dev` - Start development server on port 9002
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-- `npm run typecheck` - Run TypeScript type checking
+```bash
+npm run dev      # Start development server (port 9002)
+npm run build    # Build for production
+npm run start    # Start production server
+npm run lint     # Run ESLint
+npm run typecheck # Run TypeScript checks
+```
 
-## 🔧 Key Features in Detail
+## 🔧 Key Features Explained
 
 ### Auto-Logout Security
-- JWT tokens expire after 7 days
-- Automatic session cleanup
-- Secure cookie management
+- JWT tokens automatically expire after 7 days
+- Secure session cleanup on logout
+- HTTP-only cookies prevent XSS attacks
 
 ### Responsive Dashboard
-- Animated number counters
-- Interactive date navigation
+- Animated counters for key metrics
+- Interactive date range selection
 - Real-time data updates
-- Mobile-optimized layout
+- Mobile-optimized interface
 
 ### Advanced Employee Tracking
-- Service anniversary calculations
-- Birthday reminders
+- Automatic service year calculations
+- Birthday and anniversary notifications
 - Position-based analytics
-- Export capabilities
+- Bulk data export capabilities
 
 ### Role-Based Security
 - Granular permission control
-- Protected admin functions
-- Secure API endpoints
+- Protected API endpoints
 - Session-based authorization
+- Secure admin operations
 
 ## 🤝 Contributing
 
+We welcome contributions! Please follow these steps:
+
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## 📄 License
 
 This project is proprietary software. All rights reserved.
 
-## 📞 Support
+## 📞 Support & Contact
 
-For technical support or questions, please contact the development team. => [RyanWez](https://t.me/RyanWez)
+For technical support, feature requests, or questions:
+
+- **Developer**: RyanWez
+- **Telegram**: [@RyanWez](https://t.me/RyanWez)
+- **Repository**: [GitHub](https://github.com/RyanWez/EMS)
 
 ---
 
-**EMS** - Streamlining employee management with modern technology and security.
+**EMS** - Empowering HR teams with modern technology, security, and intuitive design.
