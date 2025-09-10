@@ -72,23 +72,21 @@ const nextConfig: NextConfig = {
     return config;
   },
   // Turbopack configuration (used when using --turbopack flag)
-  experimental: {
-    turbo: {
-      resolveAlias: {
-        // Handle missing optional dependencies for Turbopack
-        '@opentelemetry/exporter-jaeger': './src/lib/empty-module.js',
-        '@genkit-ai/firebase': './src/lib/empty-module.js',
-      },
-      resolveExtensions: [
-        '.mdx',
-        '.tsx',
-        '.ts',
-        '.jsx',
-        '.js',
-        '.mjs',
-        '.json',
-      ],
+  turbopack: {
+    resolveAlias: {
+      // Handle missing optional dependencies for Turbopack
+      '@opentelemetry/exporter-jaeger': './src/lib/empty-module.js',
+      '@genkit-ai/firebase': './src/lib/empty-module.js',
     },
+    resolveExtensions: [
+      '.mdx',
+      '.tsx',
+      '.ts',
+      '.jsx',
+      '.js',
+      '.mjs',
+      '.json',
+    ],
   },
 };
 
